@@ -7,7 +7,7 @@ class FullPost extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            loadedPost: null
+            loadedPost: null,
         }
     }
     componentDidUpdate(prevProps, prevState) {
@@ -17,7 +17,9 @@ class FullPost extends Component {
                     this.setState({ loadedPost: response.data });
                     console.log(response);
 
-                }).catch(err => console.log(err));
+                }).catch(err => {
+                    console.log(err);
+                });
 
             }
         }
@@ -27,7 +29,7 @@ class FullPost extends Component {
     deletePostHandler = () => {
         axios.delete('https://jsonplaceholder.typicode.com/posts/' + this.props.id).then(res => {
             console.log(res);
-        }) .catch(err => console.log(err));
+        }).catch(err => console.log(err));
     }
     render() {
         let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;

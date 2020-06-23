@@ -12,7 +12,9 @@ class Blog extends Component {
         super(props)
         this.state = {
             posts: [],
-            selectedPostId: null
+            selectedPostId: null,
+            Error: false
+
         }
     }
     componentDidMount() {
@@ -25,18 +27,30 @@ class Blog extends Component {
                 }
             });
             this.setState({ posts: updatedPost });
-            //console.log(response);
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            this.setState({ error: true })
+            console.log(err);
+        });
     }
 
     selectedPostHandler = (id) => {
         this.setState({ selectedPostId: id })
     }
     render() {
-        const posts = this.state.posts.map(post => {
-            return <Post key={post.id} title={post.title} author={post.author} body={post.body}
-                clicked={() => this.selectedPostHandler(post.id)} />
-        });
+
+        let posts = <p style={{ color: "red" }} >Something went wrong</p>
+
+        if (!this.state.error) {
+            posts = this.state.posts.map(post => {
+                return <Post
+                    key={post.id}
+                    title={post.title}
+                    author={post.author}
+                    body={post.body}
+                    clicked={() => this.selectedPostHandler(post.id)} />
+            });
+        }
+
         return (
             <div>
                 <section className="Posts">
