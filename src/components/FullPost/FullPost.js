@@ -11,14 +11,17 @@ class FullPost extends Component {
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.id) {
-            axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id).then(response => {
-                this.setState({ loadedPost: response.data });
-                console.log(response);
+        if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
+            if (this.props.id) {
+                axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id).then(response => {
+                    this.setState({ loadedPost: response.data });
+                    console.log(response);
 
-            }).catch(err => console.log(err));
+                }).catch(err => console.log(err));
 
+            }
         }
+
     }
     render() {
         let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
